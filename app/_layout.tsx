@@ -24,7 +24,7 @@ export default function RootLayout() {
         <Stack.Screen name="account/edit" options={{ title: 'Account', presentation: 'modal' }} />
         <Stack.Screen name="categories" options={{ title: 'Categories' }} />
         <Stack.Screen name="budgets" options={{ title: 'Budgets' }} />
-        <Stack.Screen name="rules" options={{ title: 'Learned scan rules' }} />
+        <Stack.Screen name="scan-rules" options={{ title: 'Learned scan rules' }} />
       </Stack>
     </SQLiteProvider>
   );

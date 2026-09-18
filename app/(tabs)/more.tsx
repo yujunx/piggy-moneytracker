@@ -85,7 +85,7 @@ export default function MoreScreen() {
         title="Learned scan rules"
         subtitle="Merchants Piggy has learned to categorise"
         right={chevron}
-        onPress={() => router.push('/rules')}
+        onPress={() => router.push('/scan-rules')}
       />
 
       <SectionTitle>Backup</SectionTitle>
