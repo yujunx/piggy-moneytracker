@@ -6,6 +6,7 @@ import { RecordForm, type Draft, type ValidDraft } from '../../src/components/Re
 import { deleteTransaction, getAccounts, getTransaction, saveTransaction } from '../../src/db/queries';
 import { deleteImage } from '../../src/ocr/recognize';
 import { useTheme } from '../../src/theme';
+import type { Transaction } from '../../src/types';
 import { toDbDateTime } from '../../src/utils/date';
 import { senToInput } from '../../src/utils/money';
 
@@ -15,7 +16,7 @@ export default function EditRecordScreen() {
   const params = useLocalSearchParams<{ id?: string; date?: string }>();
   const id = params.id ? Number(params.id) : undefined;
   const [initial, setInitial] = useState<Draft | null>(null);
-  const [source, setSource] = useState<'manual' | 'scan'>('manual');
+  const [source, setSource] = useState<Transaction['source']>('manual');
 
   useEffect(() => {
     (async () => {

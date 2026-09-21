@@ -47,7 +47,7 @@ export interface Transaction {
   /** Free-form context the user adds. */
   memo: string;
   image_uri: string | null;
-  source: 'manual' | 'scan';
+  source: 'manual' | 'scan' | 'demo';
   created_at: string;
 }
 

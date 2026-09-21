@@ -24,10 +24,7 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false,
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -41,7 +38,8 @@
         "expo-image-picker",
         {
           "photosPermission": "Piggy reads your screenshots to log spending.",
-          "cameraPermission": "Piggy uses the camera to photograph receipts."
+          "cameraPermission": "Piggy uses the camera to photograph receipts.",
+          "microphonePermission": false
         }
       ]
     ],

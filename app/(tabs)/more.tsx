@@ -6,6 +6,7 @@ import * as Sharing from 'expo-sharing';
 import { useSQLiteContext } from 'expo-sqlite';
 import { Alert, ScrollView, Text } from 'react-native';
 import { ListRow, SectionTitle } from '../../src/components/ui';
+import { insertDemoData, removeDemoData } from '../../src/db/demo';
 import { exportAll, getTransactions, importAll, isBackup, toCsv } from '../../src/db/queries';
 import { useTheme } from '../../src/theme';
 import { dayKey } from '../../src/utils/date';
@@ -75,6 +76,35 @@ export default function MoreScreen() {
     );
   };
 
+  const loadDemo = () => {
+    const run = async (months: number) => {
+      try {
+        const { count, ms } = await insertDemoData(db, months);
+        Alert.alert('Demo data added', `${count.toLocaleString()} records in ${(ms / 1000).toFixed(1)}s.`);
+      } catch (e) {
+        Alert.alert('Could not add demo data', String(e));
+      }
+    };
+    Alert.alert('Load demo data?', 'Adds realistic fake records to your existing accounts. You can remove them later without touching your real records.', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: '6 months', onPress: () => run(6) },
+      { text: '3 years (stress test)', onPress: () => run(36) },
+    ]);
+  };
+
+  const clearDemo = () =>
+    Alert.alert('Remove demo data?', 'Deletes all demo records. Records you added or scanned yourself are kept.', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Remove',
+        style: 'destructive',
+        onPress: async () => {
+          const n = await removeDemoData(db);
+          Alert.alert(`Removed ${n.toLocaleString()} demo records.`);
+        },
+      },
+    ]);
+
   return (
     <ScrollView style={{ backgroundColor: p.bg }} contentContainerStyle={{ paddingBottom: 40 }}>
       <SectionTitle>Settings</SectionTitle>
@@ -92,6 +122,10 @@ export default function MoreScreen() {
       <ListRow left={icon('cloud-upload-outline')} title="Export backup (JSON)" subtitle="Save to Drive, email it to yourself, etc." onPress={exportJson} />
       <ListRow left={icon('cloud-download-outline')} title="Restore from backup" subtitle="Replaces all current data" onPress={restore} />
       <ListRow left={icon('grid-outline')} title="Export records (CSV)" subtitle="Open in Excel or Google Sheets" onPress={exportCsv} />
+
+      <SectionTitle>Testing</SectionTitle>
+      <ListRow left={icon('flask-outline')} title="Load demo data" subtitle="Fake records for trying things out" onPress={loadDemo} />
+      <ListRow left={icon('trash-outline')} title="Remove demo data" subtitle="Keeps your real records" onPress={clearDemo} />
 
       <Text style={{ color: p.sub, fontSize: 12, textAlign: 'center', marginTop: 28, paddingHorizontal: 24 }}>
         🐷 Piggy keeps all data on this phone. Backups don't include attached screenshots.
